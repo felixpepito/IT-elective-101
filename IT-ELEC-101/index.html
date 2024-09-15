@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f7f7f7; /* Light gray background for a clean look */
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+  overflow: hidden;
+  background-color: #FF5722; /* Shopee orange */
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.tab button {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  color: white;
+  transition: 0.3s;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.tab button:hover {
+  background-color: #E64A19; /* Darker orange for hover */
+}
+
+.tabcontent {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 8px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.icon {
+  padding: 10px;
+  background: #FF5722; /* Shopee orange */
+  color: white;
+  min-width: 50px;
+  text-align: center;
+  border-radius: 4px 0 0 4px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  border: 1px solid #ddd;
+  border-radius: 0 4px 4px 0;
+}
+
+.input-field:focus {
+  border: 2px solid #FF5722; /* Shopee orange */
+}
+
+.btn {
+  background-color: #FF5722; /* Shopee orange */
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
+  opacity: 0.9;
+  font-size: 16px;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: black;
+  padding: 10px;
+}
+
+.signin {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.signin a {
+  color: #FF5722; /* Shopee orange */
+  text-decoration: none;
+}
+
+.signin a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="tab">
+    <button class="tablinks" onclick="openForm(event, 'Login')">Login</button>
+    <button class="tablinks" onclick="openForm(event, 'Register')">Register</button>
+  </div>
+
+  <div id="Login" class="tabcontent">
+    <h2>Log in Now</h2>
+    <form id="loginForm">
+      <div class="input-container">
+        <i class="fa fa-envelope icon"></i>
+        <input class="input-field" type="email" placeholder="Email" name="email" required>
+      </div>
+      <div class="input-container">
+        <i class="fa fa-key icon"></i>
+        <input id="loginInput" class="input-field" type="password" placeholder="Password" name="psw" required>
+        <i class="fa fa-eye toggle-password" onclick="togglePassword('loginInput')"></i>
+      </div>
+      <button type="submit" class="btn">Log in</button>
+    </form>
+  </div>
+
+  <div id="Register" class="tabcontent">
+    <h2>Register Form</h2>
+    <form id="registerForm">
+      <div class="input-container">
+        <i class="fa fa-user icon"></i>
+        <input class="input-field" type="text" placeholder="Username" name="usrnm" required>
+      </div>
+      <div class="input-container">
+        <i class="fa fa-envelope icon"></i>
+        <input class="input-field" type="email" placeholder="Email" name="email" required>
+      </div>
+      <div class="input-container">
+        <i class="fa fa-key icon"></i>
+        <input id="registerInput" class="input-field" type="password" placeholder="Password" name="psw" required>
+        <i class="fa fa-eye toggle-password" onclick="togglePassword('registerInput')"></i>
+      </div>
+      <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+      <div class="signin">
+        <p>Already have an account? <a href="#" onclick="openForm(event, 'Login')">Sign in</a>.</p>
+      </div>
+      <button type="submit" class="btn">Register</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function openForm(evt, formName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(formName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function togglePassword(inputId) {
+  var x = document.getElementById(inputId);
+  var icon = document.querySelector('.toggle-password');
+  if (x.type === "password") {
+    x.type = "text";
+    icon.classList.remove('fa-eye');
+    icon.classList.add('fa-eye-slash');
+  } else {
+    x.type = "password";
+    icon.classList.remove('fa-eye-slash');
+    icon.classList.add('fa-eye');
+  }
+}
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = document.querySelector('[name="email"]').value;
+  const password = document.querySelector('[name="psw"]').value;
+
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+
+  if (storedUser && storedUser.email === email && storedUser.password === password) {
+    alert('Login successful');
+    window.location.href = 'shop.html';
+  } else {
+    alert('Invalid email or password');
+  }
+});
+
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const username = document.querySelector('[name="usrnm"]').value;
+  const email = document.querySelector('[name="email"]').value;
+  const password = document.querySelector('[name="psw"]').value;
+
+  localStorage.setItem('user', JSON.stringify({ username, email, password }));
+  alert('Registration successful');
+  openForm(event, 'Login');
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('.tablinks').click();
+});
+</script>
+
+</body>
+</html>

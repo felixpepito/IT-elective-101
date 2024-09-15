@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- SweetAlert2 Library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #FF5722; /* Shopee orange */
+  }
+
+  .search-cart-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .container {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #fff;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+
+  .change .bar1 {
+    transform: translate(0, 11px) rotate(-45deg);
+  }
+
+  .change .bar2 {
+    opacity: 0;
+  }
+
+  .change .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
+  }
+
+  /* Sidebar styling */
+  .sidebar { 
+    height:50%;
+    width: 0;
+    position: fixed;
+    top: 10px;
+    left: 5px;
+    background-color: #f75324; /* Shopee's color */
+    overflow-x: hidden;
+    transition: width 0.3s ease;
+    padding-top: 10px;
+    z-index: 1000;
+    text-align: left;
+  }
+
+
+  .sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #fff; /* White text */
+    display: block;
+    transition: 0.3s;
+  }
+
+  .sidebar a:hover {
+    color: #ddd; /* Light grey on hover */
+  }
+
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 36px;
+    color: #fff; /* White text */
+    cursor: pointer;
+  }
+
+  #main {
+    padding: 16px;
+    background-color: #f5f3f2;
+    min-height: 100vh;
+    text-align: center;
+    color: white;
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: #FF5722;
+  }
+
+  h3 {
+    margin-left: 5px;
+    color: #FF5722;
+  }
+
+  #searchBar {
+    padding: 10px;
+    width: 200px;
+    max-width: 300px;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    margin-right: 50px;
+  }
+
+  /* Cart icon */
+  .cart-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+    position: relative;
+    right: 10px;
+  }
+
+  .cart-icon .item-count {
+    background-color: #fff;
+    color: #FF5722;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 14px;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    z-index: 10;
+  }
+
+  /* Categories styling */
+  .categories {
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .categories a {
+    padding: 10px;
+    text-decoration: none;
+    background-color: #FF5722;
+    color: #ffffff;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .categories a:hover {
+    background-color: #FF5722;
+    color: #fcf8f8;
+  }
+
+  #item-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 5px;
+    margin-top:auto;
+  }
+
+  .item {
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .item div strong {
+    font-size: 16px;
+    color: #333;
+  }
+
+  .item div p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+  }
+
+  
+
+  .add-to-cart-btn {
+      background-color: #FF5722; /* Shopee orange */
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #e64a19; /* Darker orange on hover */
+    }
+
+  /* Styling for the sorting dropdown */
+.sorting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.sorting label {
+  font-size: 16px;
+  color: #FF5722; /* White text */
+  margin-right: 10px;
+}
+
+.sorting select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sorting select:focus {
+  outline: none;
+  border-color: #FF5722; /* Shopee orange on focus */
+}
+
+.sorting select:hover {
+  background-color: #FF5722; /* Shopee orange on hover */
+  color: #fff;
+}
+
+
+  #cart {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    border-radius: 20px;
+    width: 300px;
+    height: calc(50% - 50px);
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+
+  }
+
+  #cart-items {
+    padding: 15px;
+  }
+
+#cart h3 {
+  margin-top:center;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.cart-item-image {
+  width: 50px; /* Adjust the width as needed */
+  height: auto;
+  margin-right: 10px;
+}
+
+.cart-item-details {
+  flex: 1;
+}
+
+.cart-item-details h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.cart-item-details p {
+  margin: 5px 0;
+}
+
+#cart {
+      position: fixed;
+      top: 20px;
+      color: #FF5722;
+      width: 300px;
+      height: 100%;
+      background-color: #ffffff;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+      overflow-y: auto;
+      padding: 20px;
+      display: none; /* Hidden by default */
+    }
+
+    #cart h2 {
+      margin-top: 0;
+      color: #e60707;
+    }
+    #cart h3{
+      margin-top: 0;
+      color: #f72b07;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .cart-item-image {
+      width: 50px; /* Adjust the width as needed */
+      height: auto;
+      margin-right: 10px;
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-details h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .cart-item-details p {
+      margin: 5px 0;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .quantity-controls button {
+      background-color: #FF5722; /* Shopee orange */
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .quantity-controls button:hover {
+      background-color: #e64a19; /* Darker orange on hover */
+    }
+
+    .quantity-controls span {
+      font-size: 16px;
+    }
+
+/* Adjusting item images in the main list */
+.item-image {
+  max-width: 100px; /* Adjust the max-width as needed */
+  height: 50px;
+}
+.close-cart {
+  font-size: 24px;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  cursor: pointer;
+  color: #FF5722;
+}
+
+
+  /* Bottom Navigation Bar */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #FF5722; /* Shopee orange */
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(206, 19, 19, 0.2);
+    z-index: 1000;
+  }
+
+  .bottom-nav a {
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    text-decoration: none;
+  }
+
+  .bottom-nav a:hover {
+    color: #ddd; /* Light grey on hover */
+  }
+
+  .bottom-nav span {
+    display: block;
+    font-size: 12px;
+  }
+
+  .bottom-nav .icon {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .bottom-nav .label {
+    font-size: 12px;
+  }
+  @media screen and (max-width: 768px) {
+    #searchBar {
+      width: 100%;
+    }
+
+    .item img {
+      width: 80px;
+      height: 80px;
+    }
+
+    .sidebar a {
+      font-size: 15px;
+    }
+
+    #main {
+      padding: 8px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .bar1, .bar2, .bar3 {
+      width: 30px;
+      height: 4px;
+    }
+
+    .sidebar a {
+      font-size: 14px;
+    }
+
+    #main {
+      padding: 8px;
+    }
+}
+  </style>
+</head>
+<body>
+
+  <div id="main">
+    <div class="header">
+      <div class="container" onclick="toggleSidebar()">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+  
+      <!-- Bottom Navigation Bar -->
+  <div class="bottom-nav">
+    <a href="add-item.html">
+      <i class="fas fa-add icon"></i>
+      <span class="label">Add Item</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-shopping-cart icon"></i>
+      <span class="label">Cart</span>
+    </a>
+    <a href="grocery-list.html">
+      <i class="fas fa-list icon"></i>
+      <span class="label">List</span>
+    </a>
+
+</div>
+      <!-- Search Bar -->
+      <div class="search-cart-container">
+        <input type="text" id="searchBar" placeholder="Search items..." oninput="searchItems()">
+        <div class="cart-icon" onclick="toggleCart()">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="item-count" class="item-count">0</span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Categories Links -->
+    <div class="categories">
+      <a href="#" onclick="filterByCategory('All Products')">All Products</a>
+      <a href="#" onclick="filterByCategory('Vegetables')">Vegetables</a>
+      <a href="#" onclick="filterByCategory('Fruits')">Fruits</a>
+      <a href="#" onclick="filterByCategory('Meals')">Meals</a>
+    </div>
+  
+    <!-- Sorting Dropdown -->
+    <div class="sorting">
+      <label for="sortOptions">Sort by:</label>
+      <select id="sortOptions" onchange="sortItems()">
+        <option value="category">Category</option>
+        <option value="productName">Product Name</option>
+        <option value="price">Price</option>
+        <option value="priority">Priority</option>
+        <option value="store">Store</option>
+      </select>
+    </div>
+    <div id="item-list"></div>
+  </div>
+
+  <div id="cart">
+    <span class="close-cart" onclick="closeCart()">&times;</span>
+    <h2>Shopping Cart</h2>
+    <div id="cart-items"></div>
+  </div>
+  
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+    <a href="index.html">
+      <i class="fas fa-sign-out-alt"></i>
+      Log out</a>
+  </div>
+  
+  <script>
+    let items = JSON.parse(localStorage.getItem('items')) || [];
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById("mySidebar");
+      sidebar.style.width= sidebar.style.width === "50px" ? "0" : "150px";
+      document.querySelector(".container").classList.toggle("change");
+    }
+
+    function closeSidebar() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.querySelector(".container").classList.remove("change");
+    }
+
+    function toggleCart() {
+      const cart = document.getElementById("cart");
+      cart.style.display = (cart.style.display === "block") ? "none" : "block";
+      displayCart();
+    }
+
+    function closeCart() {
+      document.getElementById("cart").style.display = "none";
+    }
+
+    function searchItems() {
+      const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+      const filteredItems = items.filter(item => 
+        item.productName.toLowerCase().includes(searchQuery) ||
+        item.brand.toLowerCase().includes(searchQuery) ||
+        item.store.toLowerCase().includes(searchQuery) ||
+        item.category.toLowerCase().includes(searchQuery)
+      );
+      displayItems(filteredItems);
+    }
+
+    function filterByCategory(category) {
+      let filteredItems;
+      if (category === 'All Products') {
+        filteredItems = items;
+      } else {
+        filteredItems = items.filter(item => item.category === category);
+      }
+      displayItems(filteredItems);
+    }
+
+    function sortItems() {
+      const sortOption = document.getElementById("sortOptions").value;
+      let sortedItems = [...items];
+
+      switch (sortOption) {
+        case "category":
+          sortedItems.sort((a, b) => a.category.localeCompare(b.category));
+          break;
+        case "productName":
+          sortedItems.sort((a, b) => a.productName.localeCompare(b.productName));
+          break;
+        case "price":
+          sortedItems.sort((a, b) => a.price - b.price);
+          break;
+        case "priority":
+          sortedItems.sort((a, b) => a.priority - b.priority);
+          break;
+        case "store":
+          sortedItems.sort((a, b) => a.store.localeCompare(b.store));
+          break;
+      }
+
+      displayItems(sortedItems);
+    }
+
+    function displayItems(itemsToDisplay) {
+  const itemList = document.getElementById('item-list');
+  itemList.innerHTML = itemsToDisplay.map((item) => `
+    <div class="item">
+      <img src="${item.productImage}" alt="${item.productName}" class="item-image">
+      <div class="item-details">
+        <h3>${item.productName}</h3>
+        <p>Price: ₱${item.price}</p> <!-- Using ₱ -->
+        <button class="add-to-cart-btn" onclick="addToCart('${item.productName}')">Add to Cart</button>
+      </div>
+    </div>
+  `).join('');
+}
+    function addToCart(productName) {
+      const item = items.find(item => item.productName === productName);
+      if (item) {
+        const existingCartItem = cartItems.find(cartItem => cartItem.productName === productName);
+        if (existingCartItem) {
+          existingCartItem.quantity += 1; // Increment quantity
+        } else {
+          cartItems.push({ ...item, quantity: 1 }); // Add new item with quantity 1
+        }
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        updateCartCount();
+      }
+    }
+
+    function updateCartItem(index, delta) {
+      const cartItem = cartItems[index];
+      if (cartItem) {
+        cartItem.quantity += delta;
+        if (cartItem.quantity <= 0) {
+          cartItems.splice(index, 1); // Remove item if quantity is 0 or less
+        }
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        displayCart();
+        updateCartCount();
+      }
+    }
+    function displayCart() {
+      const cartItemsDiv = document.getElementById('cart-items');
+      cartItemsDiv.innerHTML = cartItems.map((item, index) => `
+        <div class="cart-item">
+          <img src="${item.productImage}" alt="${item.productName}" class="cart-item-image">
+          <div class="cart-item-details">
+            <h3>${item.productName}</h3>
+            <p>Price: ₱${item.price}</p>
+            <div class="quantity-controls">
+              <button onclick="updateCartItem(${index}, -1)">-</button>
+              <span>${item.quantity}</span>
+              <button onclick="updateCartItem(${index}, 1)">+</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateCartCount() {
+      document.getElementById('item-count').textContent = cartItems.length;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      displayItems(items);
+      displayCart();
+      updateCartCount();
+    });  
+  </script>
+</body>
+</html>
