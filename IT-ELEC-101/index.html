@@ -7,11 +7,11 @@
 </head>
 <body>
 <div class="container">
-  <!-- Tabs para sa Login ug Register -->
+  <!-- Tabs for Login and Register -->
   <div class="tab">
-    <!-- Button para sa pag display sa Login form -->
+    <!-- Button to show the Login form -->
     <button class="tablinks" onclick="openForm(event, 'Login')">Login</button>
-    <!-- Button para sa -display sa Register form -->
+    <!-- Button to show the Register form -->
     <button class="tablinks" onclick="openForm(event, 'Register')">Register</button>
   </div>
 
@@ -20,20 +20,20 @@
     <h2>Log in Now</h2>
     <form id="loginForm">
       <div class="input-container">
-        <!-- Email icon sa login form -->
+        <!-- Email icon in the login form -->
         <i class="fa fa-envelope icon"></i>
         <!-- Email input field -->
         <input class="input-field" type="email" placeholder="Email" name="email" required>
       </div>
       <div class="input-container">
-        <!-- Password icon sa login form -->
+        <!-- Password icon in the login form -->
         <i class="fa fa-key icon"></i>
         <!-- Password input field -->
         <input id="loginInput" class="input-field" type="password" placeholder="Password" name="psw" required>
-        <!-- Eye icon para sa pag toggle sa password visibility -->
+        <!-- Eye icon to toggle password visibility -->
         <i class="fa fa-eye toggle-password" onclick="togglePassword('loginInput')"></i>
       </div>
-      <!-- Submit button para sa login -->
+      <!-- Submit button for login -->
       <button type="submit" class="btn">Log in</button>
     </form>
   </div>
@@ -43,32 +43,32 @@
     <h2>Register Form</h2>
     <form id="registerForm">
       <div class="input-container">
-        <!-- Username icon sa register form -->
+        <!-- Username icon in the register form -->
         <i class="fa fa-user icon"></i>
         <!-- Username input field -->
         <input class="input-field" type="text" placeholder="Username" name="usrnm" required>
       </div>
       <div class="input-container">
-        <!-- Email icon sa register form -->
+        <!-- Email icon in the register form -->
         <i class="fa fa-envelope icon"></i>
         <!-- Email input field -->
         <input class="input-field" type="email" placeholder="Email" name="email" required>
       </div>
       <div class="input-container">
-        <!-- Password icon sa register form -->
+        <!-- Password icon in the register form -->
         <i class="fa fa-key icon"></i>
         <!-- Password input field -->
         <input id="registerInput" class="input-field" type="password" placeholder="Password" name="psw" required>
-        <!-- Eye icon para sa pag-toggle sa password visibility -->
+        <!-- Eye icon to toggle password visibility -->
         <i class="fa fa-eye toggle-password" onclick="togglePassword('registerInput')"></i>
       </div>
-      <!-- Link sa Terms & Privacy -->
+      <!-- Link to Terms & Privacy -->
       <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
       <div class="signin">
-        <!-- Link para sa pagbalik sa Login form kung naa nang account -->
+        <!-- Link to go back to Login form if already have an account -->
         <p>Already have an account? <a href="#" onclick="openForm(event, 'Login')">Sign in</a>.</p>
       </div>
-      <!-- Submit button para sa register -->
+      <!-- Submit button for register -->
       <button type="submit" class="btn">Register</button>
     </form>
   </div>

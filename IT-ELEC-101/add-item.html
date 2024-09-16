@@ -1,170 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Para sa mobile nga screen -->
+  <!-- Character encoding -->
+  <meta charset="UTF-8">
+  
+  <!-- For responsive design on mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <!-- Para sa mga icons -->
+  <!-- For using icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  <!-- Para sa custom nga CSS file -->
-  <link rel="stylesheet" href="style/addi-item.css">
-
-  <!-- Para sa SweetAlert nga pop-up -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!-- Custom CSS file for the grocery list -->
+  <link rel="stylesheet" href="style/grocery.css">
 </head>
 <body>
-  <div id="main">
-    <!-- Header section sa page -->
-    <div class="header">
-      <!-- Button para mo-toggle sa sidebar -->
-      <div class="container" onclick="toggleSidebar()">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </div>
-      <!-- Title sa page -->
-      <h2>Add New Item</h2>
-    </div>
 
-    <!-- Form para mag-add og bag-ong item -->
-    <form id="addItemForm">
-      <!-- Title para sa form -->
-      <h3 id="form-title">Add Item</h3>
-      <!-- Hidden field para sa index kung mag-edit -->
-      <input type="hidden" id="editIndex" value="">
-
-      <!-- Input para sa Product Name -->
-      <input type="text" id="productName" placeholder="Product Name" required>
-
-      <!-- Input para sa Brand -->
-      <input type="text" id="brand" placeholder="Brand">
-
-      <!-- Input para sa Price -->
-      <input type="number" id="price" placeholder="Price">
-
-      <!-- Input para sa Weight o Volume -->
-      <input type="text" id="weight" placeholder="Weight/Volume">
-
-      <!-- Input para sa Quantity -->
-      <input type="number" id="quantity" placeholder="Quantity">
-
-      <!-- Input para sa Store -->
-      <input type="text" id="store" placeholder="Store">
-
-      <!-- Dropdown para sa Category -->
-      <select id="category">
-        <option value="Vegetables">Vegetables</option>
-        <option value="Fruits">Fruits</option>
-        <option value="Meals">Meals</option>
-      </select>
-
-      <!-- Input para sa image nga i-upload -->
-      <input type="file" id="productImage" accept="image/*">
-
-      <!-- Button para i-submit ang form -->
-      <button type="submit">Add to List</button>
-    </form>
-
-    <!-- Bottom navigation nga mga links -->
-    <div class="bottom-nav">
-      <a href="add-item.html">
-        <i class="fas fa-add icon"></i>
-        <span class="label">Add Item</span>
-      </a>
-      <a href="shop.html">
-        <i class="fas fa-shop icon"></i>
-        <span class="label">Shop</span>
-      </a>
-      <a href="grocery-list.html">
-        <i class="fas fa-list icon"></i>
-        <span class="label">List</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- Sidebar section -->
-  <div id="mySidebar" class="sidebar">
-    <!-- Button para isira ang sidebar -->
-    <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+<div id="main">
+  <!-- Header section of the page -->
+  <div class="header">
     
-    <!-- Logout link -->
-    <a href="index.html">
-      <i class="fas fa-sign-out-alt"></i>
-      Log out</a>
+    <!-- Button to toggle the sidebar -->
+    <div class="container" onclick="toggleSidebar()">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+    </div>
+    
+    <!-- Search bar to find items -->
+    <div class="search-cart-container">
+      <input type="text" id="searchBar" placeholder="Search items..." oninput="searchItems()">
+    </div>
   </div>
 
-  <!-- Script para mag-toggle og close sa sidebar -->
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById("mySidebar");
-      if (sidebar.style.width === "150px") {
-        sidebar.style.width = "0";
-        document.querySelector(".container").classList.remove("change");
-      } else {
-        sidebar.style.width = "250px";
-        document.querySelector(".container").classList.add("change");
-      }
-    }
+  <!-- Links for item categories -->
+  <div class="categories">
+    <a href="#" onclick="filterByCategory('All Products')">All Products</a>
+    <a href="#" onclick="filterByCategory('Vegetables')">Vegetables</a>
+    <a href="#" onclick="filterByCategory('Fruits')">Fruits</a>
+    <a href="#" onclick="filterByCategory('Meals')">Meals</a>
+  </div>
 
-    function closeSidebar() {
-      document.getElementById("mySidebar").style.width = "0";
+  <!-- Heading for the grocery list -->
+  <h2>Grocery List</h2>
+
+  <!-- Div to display the list of items -->
+  <div id="item-list"></div>
+</div>
+
+<!-- Section for the shopping cart -->
+<div id="cart">
+  <h3>Shopping Cart</h3>
+  <div id="cart-items"></div>
+</div>
+
+<!-- Sidebar section -->
+<div id="mySidebar" class="sidebar">
+  
+  <!-- Button to close the sidebar -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+  
+  <!-- Link to Add Item page -->
+  <a href="add-item.html">
+    <i class="fas fa-add icon"></i>Add Item</a>
+
+  <!-- Link to Shop page -->
+  <a href="shop.html">
+    <i class="fas fa-shopping-cart icon"></i> Shop</a>
+</div>
+
+<script>
+  // Function to toggle the sidebar
+  function toggleSidebar() {
+    const sidebar = document.getElementById("mySidebar");
+    // Check if the sidebar is open or closed
+    if (sidebar.style.width === "150px") {
+      // If open, close the sidebar
+      sidebar.style.width = "0";
       document.querySelector(".container").classList.remove("change");
+    } else {
+      // If closed, open the sidebar
+      sidebar.style.width = "150px";
+      document.querySelector(".container").classList.add("change");
     }
+  }
 
-    // Function para mag-add og new item sa list
-    document.getElementById('addItemForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      // Kuha sa values gikan sa form
-      const productName = document.getElementById('productName').value;
-      const brand = document.getElementById('brand').value;
-      const price = document.getElementById('price').value;
-      const weight = document.getElementById('weight').value;
-      const quantity = document.getElementById('quantity').value;
-      const store = document.getElementById('store').value;
-      const category = document.getElementById('category').value;
-      const productImage = document.getElementById('productImage').files[0];
+  // Function to close the sidebar
+  function closeSidebar() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.querySelector(".container").classList.remove("change");
+  }
 
-      // Mo-process sa image nga gi-upload
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        // Create og bag-ong item object
-        const newItem = {
-          productName,
-          brand,
-          price,
-          weight,
-          quantity,
-          store,
-          category,
-          productImage: reader.result,
-          status: 'available'
-        }
+  // Function to display grocery items
+  function displayItems(items) {
+    const itemList = document.getElementById('item-list');
+    itemList.innerHTML = items
+      .filter(item => item.status === 'available') // Filter available items
+      .map((item, index) => `
+        <div class="item">
+          <img src="${item.productImage}" alt="${item.productName}" class="item-image">
+          <div class="item-details">
+            <h3>${item.productName}</h3>
+            <p>Brand: ${item.brand}</p>
+            <p>Price: ₱${item.price}</p> <!-- ₱ symbol for price -->
+            <p>Weight/Volume: ${item.weight}</p>
+            <p>Quantity: ${item.quantity}</p>
+            <p>Store: ${item.store}</p>
+            <p>Category: ${item.category}</p>
+            <button class="edit-btn" onclick="editItem(${index})">
+              <i class="fas fa-edit"></i> 
+            </button>
+            <button class="remove-btn" onclick="removeItem(${index})">
+              <i class="fas fa-trash-alt"></i> 
+            </button>
+          </div>
+        </div>
+      `)
+      .join(''); // Convert array to HTML string
+  }
 
-        // I-store ang item sa Local Storage
-        let items = JSON.parse(localStorage.getItem('items')) || [];
-        items.push(newItem);
-        localStorage.setItem('items', JSON.stringify(items));
+  // Function to search for items based on search query
+  function searchItems() {
+    const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+    const items = JSON.parse(localStorage.getItem('items')) || [];
+    const filteredItems = items.filter(item =>
+      item.productName.toLowerCase().includes(searchQuery) ||
+      item.brand.toLowerCase().includes(searchQuery) ||
+      item.store.toLowerCase().includes(searchQuery) ||
+      item.category.toLowerCase().includes(searchQuery)
+    );
+    displayItems(filteredItems);
+  }
 
-        // Success notification gamit SweetAlert
-        Swal.fire({
-          title: 'Added Successfully!',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          window.location.href = 'add-item.html';
-        });
+  // Function to filter items by category
+  function filterByCategory(category) {
+    const items = JSON.parse(localStorage.getItem('items')) || [];
+
+    // If category is "All Products", show all items
+    if (category === 'All Products') {
+      displayItems(items);
+    } else {
+      // Filter items based on selected category
+      const filteredItems = items.filter(item => item.category === category);
+      displayItems(filteredItems);
+    }
+  }
+
+  // Call searchItems function on page load to show all items
+  document.addEventListener('DOMContentLoaded', searchItems);
+
+  // Function to edit an item using basic alerts
+  function editItem(index) {
+    const items = JSON.parse(localStorage.getItem('items')) || [];
+    const item = items[index];
+    const newProductName = prompt('Edit Product Name:', item.productName);
+    const newBrand = prompt('Edit Brand:', item.brand);
+    const newPrice = prompt('Edit Price (₱):', item.price);
+    const newWeight = prompt('Edit Weight/Volume:', item.weight);
+    const newQuantity = prompt('Edit Quantity:', item.quantity);
+    const newStore = prompt('Edit Store:', item.store);
+    const newImage = prompt('Edit Image URL:', item.productImage);
+
+    // Check if all fields are filled
+    if (newProductName && newBrand && newPrice && newWeight && newQuantity && newStore) {
+      // Update the item with new values
+      items[index] = {
+        ...item,
+        productName: newProductName,
+        brand: newBrand,
+        price: newPrice,
+        weight: newWeight,
+        quantity: newQuantity,
+        store: newStore,
+        productImage: newImage
       };
+      // Save the updated items back to localStorage
+      localStorage.setItem('items', JSON.stringify(items));
+      searchItems(); // Update the display based on search filter
+      alert('Item has been updated.');
+    } else {
+      alert('Please fill in all fields.'); // Show error message if fields are empty
+    }
+  }
 
-      // Kung naay image, basahon ang image
-      if (productImage) {
-        reader.readAsDataURL(productImage);
-      } else {
-        // Kung walay image, direcho process
-        reader.onloadend();
-      }
-    });
-  </script>
+  // Function to remove an item using basic alert
+  function removeItem(index) {
+    // Confirm with user before deleting
+    if (confirm('Are you sure you want to delete this item?')) {
+      const items = JSON.parse(localStorage.getItem('items')) || [];
+      // Remove the item from the list
+      items.splice(index, 1);
+      // Save the updated list back to localStorage
+      localStorage.setItem('items', JSON.stringify(items));
+      searchItems(); // Update the display based on search filter
+      alert('Item has been deleted.');
+    }
+  }
+
+  // Call searchItems function on page load to display items
+  document.addEventListener('DOMContentLoaded', searchItems);
+</script>
+
 </body>
 </html>
