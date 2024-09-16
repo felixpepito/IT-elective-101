@@ -1,0 +1,115 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f7f7f7; /* Light gray background for a clean look */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tab {
+    overflow: hidden;
+    background-color: #FF5722; /* Shopee orange */
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .tab button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    color: white;
+    transition: 0.3s;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+  
+  .tab button:hover {
+    background-color: #E64A19; /* Darker orange for hover */
+  }
+  
+  .tabcontent {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 8px;
+  }
+  
+  .input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .icon {
+    padding: 10px;
+    background: #FF5722; /* Shopee orange */
+    color: white;
+    min-width: 50px;
+    text-align: center;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 0 4px 4px 0;
+  }
+  
+  .input-field:focus {
+    border: 2px solid #FF5722; /* Shopee orange */
+  }
+  
+  .btn {
+    background-color: #FF5722; /* Shopee orange */
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    opacity: 0.9;
+    font-size: 16px;
+  }
+  
+  .btn:hover {
+    opacity: 1;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: black;
+    padding: 10px;
+  }
+  
+  .signin {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .signin a {
+    color: #FF5722; /* Shopee orange */
+    text-decoration: none;
+  }
+  
+  .signin a:hover {
+    text-decoration: underline;
+  }

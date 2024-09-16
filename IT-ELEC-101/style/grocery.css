@@ -1,0 +1,295 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f75324; /* Shopee's main color */
+    color: white;
+  }
+
+  .search-cart-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .container {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+
+  .change .bar1 {
+    transform: translate(0, 11px) rotate(-45deg);
+  }
+
+  .change .bar2 {
+    opacity: 0;
+  }
+
+  .change .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
+  }
+
+   /* Categories styling */
+   .categories {
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .categories a {
+    padding: 10px;
+    text-decoration: none;
+    background-color: #FF5722;
+    color: #ffffff;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .categories a:hover {
+    background-color: #FF5722;
+    color: #fcf8f8;
+  }
+
+
+  /* Fixed sidebar positioning */
+  .sidebar { 
+    height:20%;
+    width: 0;
+    position: fixed;
+    top: 10px;
+    left: 5px;
+    background-color: #f75324; /* Shopee's color */
+    overflow-x: hidden;
+    transition: width 0.3s ease;
+    padding-top: 10px;
+    z-index: 1000;
+    text-align: left;
+  }
+
+  .sidebar a {
+    padding: 8px 8px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white; /* Shopee's text color */
+    display: block;
+    transition: 0.3s;
+  }
+
+  .sidebar a:hover {
+    background-color: #ff6f61; /* A lighter orange for hover effect */
+  }
+
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 36px;
+    color: white;
+  }
+
+  #main {
+    padding: 16px;
+    background-color: #f2f2f2; /* Light gray background */
+    min-height: 100vh;
+    text-align: center;
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 20px;
+    color: #f75324; /* Shopee's color */
+  }
+
+  form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-top: 20px;
+  }
+
+  form input, form select {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  form button {
+    padding: 10px 15px;
+    background-color: #f75324; /* Shopee's color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  form button:hover {
+    background-color: #ff6f61; /* A lighter orange for hover effect */
+  }
+
+  #searchBar {
+    padding: 10px;
+    width: 200px;
+    max-width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 50px;
+  }
+
+  .cart-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #f75324; /* Shopee's color */
+    position: relative;
+    right: 10px;
+  }
+
+  .cart-icon .item-count {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 14px;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    z-index: 10;
+  }
+
+  #item-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .item {
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  align-items: center; /* Center items horizontally */
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center; /* Center text */
+}
+
+.item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  margin-bottom: 10px; /* Add some space below the image */
+}
+
+.item div {
+  flex-grow: 1;
+  margin: 0;
+}
+
+.item div strong {
+  font-size: 18px;
+  color: #333;
+}
+
+.item div p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+
+  .item button {
+  background-color: transparent; /* No background for icon buttons */
+  color: #f75324; /* Shopee's color */
+  border: none;
+  cursor: pointer;
+  font-size: 18px; /* Icon size */
+  margin-right: 10px;
+}
+
+  #cart {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    width: 300px;
+    height: calc(100% - 50px);
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+  }
+
+  #cart-items {
+    padding: 15px;
+  }
+
+  #cart-items .item {
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+.bottom-nav a:hover {
+  background-color: #ff6f61; /* A lighter orange for hover effect */
+  border-radius: 5px;
+  padding: 5px;
+}
+
+  @media screen and (max-width: 768px) {
+    form input, form select {
+      width: 100%;
+    }
+
+    .item img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .sidebar a {
+      font-size: 15px;
+    }
+
+    #main {
+      padding: 8px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .bar1, .bar2, .bar3 {
+      width: 30px;
+      height: 4px;
+    }
+
+    .sidebar a {
+      font-size: 14px;
+      margin-top: -2px;
+    }
+
+    #main {
+      padding: 8px;
+  
+    }
+  }
